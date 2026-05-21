@@ -14,5 +14,5 @@ http:
 
 script-providers:
   wsj-ad-cleaner:
-    url: https://cdn.jsdelivr.net/gh/wanderkiller/personal-toolkits@refs/heads/main/ad-cleaner.js
+    url: https://raw.githubusercontent.com/wanderkiller/personal-toolkits/refs/heads/main/ad-cleaner.js
     interval: 86400
