@@ -7,19 +7,7 @@ http:
     - "cn.wsj.com"
   
   script:
-    - match: ^https?:\/\/(www|cn)\.wsj\.com\/$
-      name: wsj-ad-cleaner
-      type: response
-      require-body: true
-    - match: ^https?:\/\/(www|cn)\.wsj\.com\/articles\/.*
-      name: wsj-ad-cleaner
-      type: response
-      require-body: true
-    - match: ^https?:\/\/(www|cn)\.wsj\.com\/news\/.*
-      name: wsj-ad-cleaner
-      type: response
-      require-body: true
-    - match: ^https?:\/\/(www|cn)\.wsj\.com\/[^?]+\.html.*
+    - match: ^https?:\/\/(www|cn)\.wsj\.com\/(?!.*\.(?:js|css|json|jpg|jpeg|png|webp|gif|svg|woff2?|ttf|ico|map|mp4|m3u8|woff|eot)(?:\?|$)).*
       name: wsj-ad-cleaner
       type: response
       require-body: true
