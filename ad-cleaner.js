@@ -1,17 +1,23 @@
-// wsj-ad-cleanup.js
+// ad-cleaner.js
 // 适用 www.wsj.com 和 cn.wsj.com
+// 兼容 Quantumult X 和 Stash
 
 const headers = $response.headers || {};
-const ct = headers['Content-Type'] || headers['content-type'] || '';
+let ct = '';
+for (const k in headers) {
+  if (k.toLowerCase() === 'content-type') {
+    ct = headers[k];
+    break;
+  }
+}
 
-// 非 HTML 直接放行
 if (!ct.includes('text/html')) {
   $done({});
 } else {
   let body = $response.body;
 
   if (body && typeof body === 'string') {
-    const css = `<style id="qx-wsj-ad-cleanup">
+    const css = `<style id="ad-cleaner-wsj">
 [data-testid="ad-container"],
 .ad-portal,
 .adWrapper,
