@@ -1,0 +1,30 @@
+name: WSJ Ad Cleaner
+desc: 清除 www.wsj.com 和 cn.wsj.com 的广告占位
+
+http:
+  mitm:
+    - "www.wsj.com"
+    - "cn.wsj.com"
+  
+  script:
+    - match: ^https?:\/\/(www|cn)\.wsj\.com\/$
+      name: wsj-ad-cleaner
+      type: response
+      require-body: true
+    - match: ^https?:\/\/(www|cn)\.wsj\.com\/articles\/.*
+      name: wsj-ad-cleaner
+      type: response
+      require-body: true
+    - match: ^https?:\/\/(www|cn)\.wsj\.com\/news\/.*
+      name: wsj-ad-cleaner
+      type: response
+      require-body: true
+    - match: ^https?:\/\/(www|cn)\.wsj\.com\/[^?]+\.html.*
+      name: wsj-ad-cleaner
+      type: response
+      require-body: true
+
+script-providers:
+  wsj-ad-cleaner:
+    url: https://cdn.jsdelivr.net/gh/wanderkiller/personal-toolkits@refs/heads/main/ad-cleaner.js
+    interval: 86400
