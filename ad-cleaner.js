@@ -1,14 +1,8 @@
 // ad-cleaner.js
-// 适用 www.wsj.com 和 cn.wsj.com
-// 兼容 Quantumult X 和 Stash
-
 const headers = $response.headers || {};
 let ct = '';
 for (const k in headers) {
-  if (k.toLowerCase() === 'content-type') {
-    ct = headers[k];
-    break;
-  }
+  if (k.toLowerCase() === 'content-type') { ct = headers[k]; break; }
 }
 
 if (!ct.includes('text/html')) {
@@ -19,13 +13,19 @@ if (!ct.includes('text/html')) {
   if (body && typeof body === 'string') {
     const css = `<style id="ad-cleaner-wsj">
 [data-testid="ad-container"],
+[data-testid="ad-block"],
+[data-testid="ad-container-label"],
 .ad-portal,
 .adWrapper,
 [id^="wrapper-AD_"],
 [id^="wrapper-MOBILE_"],
+[id^="wrapper-wsj-body-AD_"],
 .uds-ad-container,
 .uds-ad-stack,
-.body-ad-label {
+.body-ad-label,
+.adContainer,
+[class*="ad-portal"],
+[class*="Ad-Container"] {
   display: none !important;
   height: 0 !important;
   min-height: 0 !important;
@@ -37,10 +37,22 @@ if (!ct.includes('text/html')) {
 }
 </style>`;
 
+    const observerScript = `<script>
+(function() {
+  var killSelectors = '[data-testid="ad-container"],[data-testid="ad-block"],.ad-portal,.adWrapper,[id^="wrapper-AD_"],[id^="wrapper-MOBILE_"],[id^="wrapper-wsj-body-AD_"],.uds-ad-container';
+  function kill() {
+    document.querySelectorAll(killSelectors).forEach(function(el) { el.remove(); });
+  }
+  if (document.readyState !== 'loading') kill();
+  else document.addEventListener('DOMContentLoaded', kill);
+  new MutationObserver(kill).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>`;
+
     if (body.includes('</head>')) {
-      body = body.replace('</head>', css + '</head>');
+      body = body.replace('</head>', css + observerScript + '</head>');
     } else {
-      body = body.replace(/<body([^>]*)>/i, `<body$1>${css}`);
+      body = body.replace(/<body([^>]*)>/i, '<body$1>' + css + observerScript);
     }
   }
 
