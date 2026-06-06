@@ -1,0 +1,11 @@
+# Optional backup keepalive. For Clash Verge Rev on Windows, the scheduled task
+# is preferred because it can run on network-change events with low power cost.
+rule-providers:
+  whitelist-keepalive:
+    type: http
+    url: "https://wl.example.com/rules/change-me-client-token.yaml?device=mihomo&mode=fast"
+    path: ./rules/whitelist-keepalive.yaml
+    interval: 86400
+    proxy: DIRECT
+    behavior: classical
+    format: yaml

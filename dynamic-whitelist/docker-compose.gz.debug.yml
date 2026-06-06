@@ -1,0 +1,5 @@
+services:
+  gz-agent:
+    environment:
+      FIREWALL_ENABLED: "false"
+      DEBUG_ENDPOINTS: "true"
