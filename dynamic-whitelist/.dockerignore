@@ -1,9 +1,0 @@
-.git
-*.md
-env/*.env
-clients
-nginx
-scripts
-systemd
-docker-compose*.yml
-

@@ -1,4 +1,0 @@
-services:
-  hk-relay:
-    environment:
-      HK_RELAY_DEBUG_ENDPOINTS: "true"
